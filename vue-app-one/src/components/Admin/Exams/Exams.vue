@@ -5,6 +5,11 @@
         <h1 class="text-xs-center">Exams Page</h1>
       </v-flex>
     </v-layout>
+    <v-layout row wrap align-left class="mt-5">
+      <v-flex xs1>
+        <v-btn :to="'/admin/exam/new'" class="primary"><v-icon dark left>add</v-icon>Add Exam</v-btn>
+      </v-flex>
+    </v-layout>
     <v-layout row wrap class="mt-5">
       <v-flex xs4 v-for="exam in exams" :key="exam.$key" class="mt-3">
         <v-card>

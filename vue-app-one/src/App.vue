@@ -11,9 +11,9 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar dark class="pink">
-      <v-toolbar-side-icon 
-        @click.stop="sideNav = !sideNav" 
-        class="hidden-sm-and-up"></v-toolbar-side-icon>
+      <div class="hidden-sm-and-up">
+        <v-toolbar-side-icon @click.stop="sideNav = !sideNav" ></v-toolbar-side-icon>
+      </div>
       <v-toolbar-title><router-link to="/" tag="span" style="cursor: pointer">My Project</router-link></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
