@@ -53,8 +53,18 @@ export const store = new Vuex.Store({
       role: { $key: 'u9032utjg34n', name: 'admin'}
     }
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    createExam (state, payload) {
+      state.loadedExams.push(payload)
+    }
+  },
+  actions: {
+    createExam ({commit}, payload) {
+      const exam = payload
+      // Reach out to firebase and store it
+      commit('createExam', exam)
+    }   
+  },
   getters: {
     loadedExams (state) {
       return state.loadedExams.sort((examA, examB) => {
