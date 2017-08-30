@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as firebase from 'firebase'
 
 Vue.use(Vuex)
 
@@ -47,15 +48,14 @@ export const store = new Vuex.Store({
 
     }
     ],
-    user: {
-      $key: 'h02i3r-0i203rkp2',
-      profile: { displayName: 'Christopher', email: "christopherstock@hotmail.co.uk", username: 'christopher'},
-      role: { $key: 'u9032utjg34n', name: 'admin'}
-    }
+    user: null
   },
   mutations: {
     createExam (state, payload) {
       state.loadedExams.push(payload)
+    },
+    setUser (state, payload) {
+      state.user = payload
     }
   },
   actions: {
@@ -63,8 +63,25 @@ export const store = new Vuex.Store({
       const exam = payload
       // Reach out to firebase and store it
       commit('createExam', exam)
-    }   
-  },
+    },
+    signUserIn ({commit}, payload) {
+      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+        .then(
+          user => {
+            const currentUser = {
+              id: user.uid,
+              role: ''
+            }
+            commit('setUser', currentUser)
+          }
+        )
+        .catch(
+          error => {
+            console.log(error)
+          }
+        )
+    }
+  },   
   getters: {
     loadedExams (state) {
       return state.loadedExams.sort((examA, examB) => {
@@ -77,6 +94,9 @@ export const store = new Vuex.Store({
           return exam.$key === examKey
         })
       }
+    },
+    user (state) {
+      return state.user
     }
   }
 })

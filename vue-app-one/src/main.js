@@ -3,7 +3,7 @@ import Vuetify from 'vuetify'
 import Vuelidate from 'vuelidate'
 import App from './App'
 import * as firebase from 'firebase'
-import firebaseConfig from './helpers/firebaseHelper.js'
+import { firebaseConfig } from './helpers/firebaseHelper'
 import router from './router'
 import { store } from './store'
 
