@@ -8,6 +8,12 @@
           </v-list-tile-action>
           <v-list-tile-content>{{ item.title }}</v-list-tile-content>
         </v-list-tile>
+        <v-list-tile v-if="userIsAuthenticated" @click="onLogout">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>Logout</v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar dark class="pink">
@@ -20,6 +26,10 @@
         <v-btn flat v-for="item in menuItems" :key="item.title" router :to="item.link">
           <v-icon left>{{item.icon}}</v-icon>
           {{item.title}}
+        </v-btn>
+        <v-btn flat v-if="userIsAuthenticated" @click="onLogout">
+          <v-icon left>exit_to_app</v-icon>
+          Logout
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -36,7 +46,15 @@
         sideNav: false,
       }
     },
+    methods: {
+      onLogout () {
+        this.$store.dispatch('logout')
+      }
+    },
     computed: {
+      user () {
+        return this.$store.getters.user
+      },
       menuItems () {
         let menuItems = [
           { icon: 'lock_open', title: 'Sign in', link:'/signin'}
@@ -44,7 +62,7 @@
         if (this.userIsAuthenticated) {
           menuItems = [
             { icon: 'supervisor_account', title: 'Admin', link:'/admin'},
-            { icon: 'account_circle', title: 'Profile', link:'/profile'},
+            { icon: 'account_circle', title: 'Profile', link:'/profile'}
           ]
         }
         return menuItems
@@ -52,7 +70,14 @@
       userIsAuthenticated () {
         return this.$store.getters.user !== null && this.$store.getters.user !== undefined
       }
-    }
+    },
+    watch: {
+      user (value) {
+        if (value == null && value == undefined) {
+          this.$router.push('/signin')
+        }
+      }
+    },
   }
 </script>
 

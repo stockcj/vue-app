@@ -7,6 +7,7 @@ import Signin from '@/components/User/Signin'
 import Exams from '@/components/Admin/Exams/Exams'
 import Exam from '@/components/Admin/Exams/Exam'
 import CreateExam from '@/components/Admin/Exams/CreateExam'
+import AuthGuard from './auth-guard'
 
 Vue.use(Router)
 
@@ -15,12 +16,14 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+      beforeEnter: AuthGuard
     },
     {
       path: '/admin',
       name: 'Admin',
-      component: Admin
+      component: Admin,
+      beforeEnter: AuthGuard
     },
     {
       path: '/signin',
@@ -30,23 +33,27 @@ export default new Router({
     {
       path: '/profile',
       name: 'Profile',
-      component: Profile
+      component: Profile,
+      beforeEnter: AuthGuard
     },
     {
       path: '/admin/exams',
       name: 'Exams',
-      component: Exams
+      component: Exams,
+      beforeEnter: AuthGuard
     },
     {
       path: '/admin/exams/:id',
       name: 'Exam',
       props: true,
-      component: Exam
+      component: Exam,
+      beforeEnter: AuthGuard
     },
     {
       path: '/admin/exam/new',
       name: 'CreateExam',
-      component: CreateExam
+      component: CreateExam,
+      beforeEnter: AuthGuard
     }
   ],
   mode: 'history'

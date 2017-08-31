@@ -71,8 +71,6 @@
             </v-flex>
           </v-layout>
         </form>
-        <pre>{{ newExam }}</pre>
-        <pre>{{ $v }}</pre>
       </v-flex>
     </v-layout>
   </v-container>
