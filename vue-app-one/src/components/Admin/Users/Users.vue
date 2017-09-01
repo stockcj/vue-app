@@ -2,12 +2,13 @@
   <v-container>
     <v-layout row wrap align-center class="mt-5">
       <v-flex xs12>
-        <h1 class="text-xs-center">Exams Page</h1>
+        <h1 class="text-xs-center">Users Page</h1>
       </v-flex>
     </v-layout>
     <v-layout row wrap align-left class="mt-5">
       <v-flex xs1>
-        <v-btn :to="'/admin/exam/new'" class="primary"><v-icon dark left>add</v-icon>Add Exam</v-btn>
+        <v-btn :to="'/admin/user/new'" class="primary">
+          <v-icon dark left>add</v-icon>Add User</v-btn>
       </v-flex>
     </v-layout>
     <v-layout>
@@ -16,54 +17,61 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap class="mt-5" v-if="!loading">
-      <v-flex xs12 md6 v-for="exam in exams" :key="exam.id" class="mt-3">
-        <v-card id="examsCard">
+      <v-flex xs12 md6 v-for="user in users" :key="user.id" class="mt-3">
+        <v-card id="usersCard">
           <v-container>
             <v-layout class="mb-3">
               <v-flex xs12>
-                <p class="display-1">{{exam.name}}</p>
+                <p class="display-1">{{user.profile.displayName}}</p>
                 <v-divider></v-divider>
               </v-flex>
             </v-layout>
-            <v-layout row wrap v-for="component in exam.components" :key="component.id">
-              <v-flex xs3>
-                <p class="subheading">{{ component.name }}</p>
-              </v-flex>
-              <v-flex xs1 v-for="version in component.versions" :key="version.id" v-if="version.active">
-                <v-chip small class="pink white--text">{{version.name}}</v-chip>
+            <v-layout>
+              <v-flex xs12>
+                <p class="subheading">Email: {{user.profile.email}}</p>
+                <p class="subheading">Username: {{user.profile.username}}</p>
+                <p class="subheading">Role: {{user.role.name}}</p>
               </v-flex>
             </v-layout>
           </v-container>
           <v-card-actions>
-            <v-btn flat :to="'/admin/exams/' + exam.id" class="blue--text">Edit</v-btn>
+            <v-btn flat :to="'/admin/users/' + user.id" class="blue--text">Edit</v-btn>
             <v-btn flat class="red--text">Delete</v-btn>
           </v-card-actions>
         </v-card>
-    </v-flex>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
-export default {
-  computed: {
-    exams () {
-      return this.$store.getters.loadedExams
-    },
-    loading () {
-      return this.$store.getters.loading
+  export default {
+    computed: {
+      users() {
+        return this.$store.getters.loadedUsers
+      },
+      loading() {
+        return this.$store.getters.loading
+      }
     }
   }
-}
+
 </script>
 
 <style>
-  #examsCard {
+  #usersCard {
     min-height: 280px;
   }
-  #examsCard .card__actions {
+
+  #usersCard .card__actions {
     position: absolute;
     bottom: 0;
     right: 0;
   }
+
+</style>
+
+<style>
+
+
 </style>

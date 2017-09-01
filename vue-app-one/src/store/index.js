@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     loadedExams: [],
+    loadedUsers: [],
     user: null,
     error: null,
     loading: false
@@ -17,6 +18,22 @@ export const store = new Vuex.Store({
     },
     createExam (state, payload) {
       state.loadedExams.push(payload)
+    },
+    updateExam (state, payload) {
+      const exam = state.loadedExams.find(exam => {
+        return exam.id === payload.id
+      })
+    },
+    setLoadedUsers (state, payload) {
+      state.loadedUsers = payload
+    },
+    createUser (state, payload) {
+      state.loadedUsers.push(payload)
+    },
+    updateUser (state, payload) {
+      const user = state.loadedExams.find(user => {
+        return user.id === payload.id
+      })
     },
     setUser (state, payload) {
       state.user = payload
@@ -40,7 +57,7 @@ export const store = new Vuex.Store({
           const obj = data.val()
           for (let key in obj) {
             exams.push({
-              $key: key,
+              id: key,
               name: obj[key].name,
               components: obj[key].components,
             })
@@ -55,18 +72,57 @@ export const store = new Vuex.Store({
     },
     createExam ({commit}, payload) {
       const exam = payload
-      // Reach out to firebase and store it
       firebase.database().ref('exams').push(exam)
         .then((data) => {
           const key = data.key
           commit('createExam', {
             ...exam,
-            $key: key
+            id: key
           })
         })
         .catch((error) => {
           console.log(error)
         })
+    },
+    updateExam ({commit}, payload) {
+      commit('setLoading', true)
+      const exam = payload
+      firebase.database().ref('exams').child(payload.id).update(exam)
+        .then(() => {
+          commit('setLoading', false)
+          commit('updateExam', payload)
+        })
+        .catch(error => {
+          console.log(error)
+          commit('setLoading', false)
+        })
+    },
+    loadUsers ({commit}) {
+      commit('setLoading', true)
+      firebase.database().ref('users').once('value')
+        .then((data) => {
+          const users = []
+          const obj = data.val()
+          for (let key in obj) {
+            users.push({
+              id: key,
+              profile: obj[key].profile,
+              role: obj[key].role
+            })
+          }
+          commit('setLoading', false)
+          commit('setLoadedUsers', users)
+        })
+        .catch((error) => {
+          console.log(error)
+          commit('setLoading', false)
+        })
+    },
+    createUser ({commit}, payload) {
+      //
+    },
+    updateUser ({commit}, payload) {
+      //
     },
     signUserIn ({commit}, payload) {
       commit('clearError')
@@ -109,7 +165,19 @@ export const store = new Vuex.Store({
     loadedExam (state) {
       return (examKey) => {
         return state.loadedExams.find((exam) => {
-          return exam.$key === examKey
+          return exam.id === examKey
+        })
+      }
+    },
+    loadedUsers (state) {
+      return state.loadedUsers.sort((userA, userB) => {
+        return userA.name > userB.name
+      })
+    },
+    loadedUser (state) {
+      return (userKey) => {
+        return state.loadedUsers.find((user) => {
+          return user.id === userKey
         })
       }
     },

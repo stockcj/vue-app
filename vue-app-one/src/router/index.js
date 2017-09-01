@@ -7,6 +7,9 @@ import Signin from '@/components/User/Signin'
 import Exams from '@/components/Admin/Exams/Exams'
 import Exam from '@/components/Admin/Exams/Exam'
 import CreateExam from '@/components/Admin/Exams/CreateExam'
+import Users from '@/components/Admin/Users/Users'
+import User from '@/components/Admin/Users/User'
+import CreateUser from '@/components/Admin/Users/CreateUser'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -53,6 +56,25 @@ export default new Router({
       path: '/admin/exam/new',
       name: 'CreateExam',
       component: CreateExam,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/admin/users',
+      name: 'Users',
+      component: Users,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/admin/users/:id',
+      name: 'User',
+      props: true,
+      component: User,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/admin/user/new',
+      name: 'CreateUser',
+      component: CreateUser,
       beforeEnter: AuthGuard
     }
   ],

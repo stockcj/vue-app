@@ -2,14 +2,14 @@
   <v-container>
     <v-layout row wrap align-center class="mt-5">
       <v-flex xs12>
-        <h4 class="text-xs-center primary--text">Create a new exam</h4>
+        <p class="text-xs-center display-2">Create a new exam</p>
       </v-flex>
     </v-layout>
     <v-layout row>
-      <v-flex xs12>
+      <v-flex xs12 md6 offset-md3>
         <form @submit.prevent="onCreateExam" class="mt-5">
           <v-layout>
-            <v-flex xs12 sm6 offset-sm3>
+            <v-flex xs12>
               <v-text-field
                 name="name"
                 v-model="newExam.name"
@@ -36,8 +36,10 @@
                   single-line
                   bottom
                   required></v-select>
-                  <div v-for="(version, vindex) in component.versions" :key="version.name">
-                    <v-layout row justify-space-between>
+                  <v-flex xs10 offset-xs1>
+                  <v-card v-for="(version, vindex) in component.versions" :key="version.name" class="mt-3">
+                    <v-card-text>
+                      <v-layout row justify-space-between>
                       <h6 style="margin: 14px 0px;">Version #{{vindex + 1}}</h6>
                       <v-btn v-if="component.versions.length > 1" @click="removeVersion(component, version)" icon class="red--text">
                         <v-icon dark>clear</v-icon>
@@ -55,14 +57,16 @@
                     <v-switch
                       v-bind:label="addLabel(version.active)" 
                       v-model="version.active"></v-switch>
-                  </div>
-                  <v-btn small @click="addVersion(component)">Add Version</v-btn>
+                    </v-card-text>              
+                  </v-card>
+                  <v-btn small @click="addVersion(component)" class="mt-3">Add Version</v-btn>
+                  </v-flex>
               </div>
               <v-btn small dark class="mt-5 pink" @click="addComponent()">Add Component</v-btn>
             </v-flex>
           </v-layout>
           <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
+            <v-flex>
               <v-btn
                 class="primary mt-5"
                 :disabled="$v.newExam.$invalid"

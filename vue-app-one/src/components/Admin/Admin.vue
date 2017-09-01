@@ -12,6 +12,14 @@
             </v-card-title>
             </router-link>
           </v-card>
+          <v-card class="mt-3"><router-link to='/admin/users' tag="span" style="cursor: pointer">
+            <v-card-title primary-title>
+              <div>
+                <h3 class="headline mb-0">Users</h3>
+              </div>
+            </v-card-title>
+            </router-link>
+          </v-card>
         </v-flex>
       </v-flex>
     </v-layout>

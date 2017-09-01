@@ -24,11 +24,11 @@
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
         <v-btn flat v-for="item in menuItems" :key="item.title" router :to="item.link">
-          <v-icon left>{{item.icon}}</v-icon>
+          <v-icon dark left>{{item.icon}}</v-icon>
           {{item.title}}
         </v-btn>
         <v-btn flat v-if="userIsAuthenticated" @click="onLogout">
-          <v-icon left>exit_to_app</v-icon>
+          <v-icon dark left>exit_to_app</v-icon>
           Logout
         </v-btn>
       </v-toolbar-items>
@@ -36,6 +36,10 @@
     <main>
       <router-view></router-view>
     </main>
+    <v-footer class="pa-3">
+      <v-spacer></v-spacer>
+      <div>© {{ new Date().getFullYear() }}</div>
+    </v-footer>
   </v-app>
 </template>
 
