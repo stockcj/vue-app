@@ -36,7 +36,7 @@
           </v-container>
           <v-card-actions>
             <v-btn flat :to="'/admin/users/' + user.id" class="blue--text">Edit</v-btn>
-            <v-btn flat class="red--text">Delete</v-btn>
+            <v-btn flat class="grey--text" disabled>Delete</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>

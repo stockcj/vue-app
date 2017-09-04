@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
+import { firebaseConfig } from '../helpers/firebaseHelper'
 
 Vue.use(Vuex)
 
@@ -10,7 +11,8 @@ export const store = new Vuex.Store({
     loadedUsers: [],
     user: null,
     error: null,
-    loading: false
+    loading: false,
+    roles: []
   },
   mutations: {
     setLoadedExams (state, payload) {
@@ -46,6 +48,9 @@ export const store = new Vuex.Store({
     },
     clearError (state) {
       state.error = null
+    },
+    setLoadedRoles (state, payload) {
+      state.roles = payload
     }
   },
   actions: {
@@ -97,6 +102,9 @@ export const store = new Vuex.Store({
           commit('setLoading', false)
         })
     },
+    deleteExam () {
+
+    },
     loadUsers ({commit}) {
       commit('setLoading', true)
       firebase.database().ref('users').once('value')
@@ -119,9 +127,36 @@ export const store = new Vuex.Store({
         })
     },
     createUser ({commit}, payload) {
-      //
+      const newFbConn = firebase.initializeApp(firebaseConfig, 'secondary')
+      newFbConn.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+        .then(fbAuth => {
+          console.log(fbAuth.uid)
+          const updateUserData = {}
+          updateUserData[`roles/${payload.role.id}/users/${fbAuth.uid}`] = true
+          updateUserData[`users/${fbAuth.uid}`] = {
+           profile: {
+             displayName: payload.displayName,
+             email: payload.email,
+             username: payload.username,
+            },
+           role: {
+             id: payload.role.id,
+             name: payload.role.name
+           }
+          };
+          firebase.database().ref('/').update(updateUserData)
+          .catch((error) => {
+            console.log(error)
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     updateUser ({commit}, payload) {
+      //
+    },
+    deleteUser () {
       //
     },
     signUserIn ({commit}, payload) {
@@ -131,11 +166,10 @@ export const store = new Vuex.Store({
         .then(
           user => {
             commit('setLoading', false)
-            const currentUser = {
-              id: user.uid,
-              role: ''
-            }
-            commit('setUser', currentUser)
+            firebase.database().ref('/users/' + user.uid).once('value')
+            .then(user => {
+              commit('setUser', user)
+            })
           }
         )
         .catch(
@@ -146,7 +180,21 @@ export const store = new Vuex.Store({
         )
     },
     autoSignIn ({commit}, payload) {
-      commit('setUser', {id: payload.uid, role: ''})
+      firebase.database().ref('/users/' + payload.uid).once('value')
+        .then((data) => {
+          const obj = data.val()
+          const currentUser = {
+            profile: {
+              displayName: obj.profile.displayName,
+              username: obj.profile.username,
+              email: obj.profile.email
+            },
+            role: {
+              name: obj.role.name
+            }
+          }
+          commit('setUser', currentUser)
+        })
     },
     logout ({commit}) {
       firebase.auth().signOut()
@@ -154,6 +202,23 @@ export const store = new Vuex.Store({
     },
     clearError ({commit}) {
       commit('clearError')
+    },
+    loadRoles ({commit}) {
+      firebase.database().ref('roles').once('value')
+      .then((data) => {
+        const roles = []
+        const obj = data.val()
+        for (let key in obj) {
+          roles.push({
+            id: key,
+            name: obj[key].name,
+          })
+        }
+        commit('setLoadedRoles', roles)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
     }
   },   
   getters: {
@@ -189,6 +254,11 @@ export const store = new Vuex.Store({
     },
     error (state) {
       return state.error
+    },
+    loadedRoles (state) {
+      return state.roles.sort((roleA, roleB) => {
+        return roleA.name > roleB.name
+      })
     }
   }
 })
