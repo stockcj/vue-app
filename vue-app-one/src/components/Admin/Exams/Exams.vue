@@ -17,28 +17,7 @@
     </v-layout>
     <v-layout row wrap class="mt-5" v-if="!loading">
       <v-flex xs12 md6 v-for="exam in exams" :key="exam.id" class="mt-3">
-        <v-card id="examsCard">
-          <v-container>
-            <v-layout class="mb-3">
-              <v-flex xs12>
-                <p class="display-1">{{exam.name}}</p>
-                <v-divider></v-divider>
-              </v-flex>
-            </v-layout>
-            <v-layout row wrap v-for="component in exam.components" :key="component.id">
-              <v-flex xs3>
-                <p class="subheading">{{ component.name }}</p>
-              </v-flex>
-              <v-flex xs1 v-for="version in component.versions" :key="version.id" v-if="version.active">
-                <v-chip small class="pink white--text">{{version.name}}</v-chip>
-              </v-flex>
-            </v-layout>
-          </v-container>
-          <v-card-actions>
-            <v-btn flat :to="'/admin/exams/' + exam.id" class="blue--text">Edit</v-btn>
-            <v-btn flat class="red--text">Delete</v-btn>
-          </v-card-actions>
-        </v-card>
+        <exam-card :exam="exam"></exam-card>
     </v-flex>
     </v-layout>
   </v-container>
@@ -53,6 +32,14 @@ export default {
     loading () {
       return this.$store.getters.loading
     }
+  },
+  methods: {
+    fetchExams: function () {
+      this.$store.dispatch('loadExams')
+    }
+  },
+  beforeMount(){
+    this.fetchExams()
   }
 }
 </script>

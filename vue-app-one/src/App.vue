@@ -63,25 +63,32 @@
         let menuItems = [
           { icon: 'lock_open', title: 'Sign in', link:'/signin'}
         ]
-        if (this.userIsAuthenticated) {
+        if (this.userIsAdmin) {
           menuItems = [
             { icon: 'supervisor_account', title: 'Admin', link:'/admin'},
             { icon: 'account_circle', title: 'Profile', link:'/profile'}
+          ]
+        } else if (this.userIsAuthenticated) {
+          menuItems = [
+             { icon: 'account_circle', title: 'Profile', link:'/profile'}
           ]
         }
         return menuItems
       },
       userIsAuthenticated () {
         return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+      },
+      userIsAdmin () {
+        return this.userIsAuthenticated && this.$store.getters.user.role.name === 'admin'
       }
     },
     watch: {
-      user (value) {
-        if (value == null && value == undefined) {
-          this.$router.push('/signin')
-        }
-      }
-    },
+       user (value) {
+         if (value == null && value == undefined) {
+           this.$router.push('/signin')
+         }
+       }
+     },
   }
 </script>
 

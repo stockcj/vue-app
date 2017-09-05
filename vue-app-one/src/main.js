@@ -6,13 +6,15 @@ import * as firebase from 'firebase'
 import { firebaseConfig } from './helpers/firebaseHelper'
 import router from './router'
 import { store } from './store'
-import AlertCmp from './components/Shared/Alert.vue'
+import AlertCmp from './components/Shared/Alert'
+import ExamCard from './components/Admin/Exams/ExamCard'
 
 Vue.use(Vuetify)
 Vue.use(Vuelidate)
 Vue.config.productionTip = false
 
 Vue.component('app-alert', AlertCmp)
+Vue.component('exam-card', ExamCard)
 
 /* eslint-disable no-new */
 new Vue({
@@ -25,8 +27,6 @@ new Vue({
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.$store.dispatch('autoSignIn', user)
-        this.$store.dispatch('loadExams')
-        this.$store.dispatch('loadUsers')
       }
     })
   }

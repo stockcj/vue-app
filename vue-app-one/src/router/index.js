@@ -20,13 +20,15 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home,
-      beforeEnter: AuthGuard
+      beforeEnter: AuthGuard,
+      meta: { requiresAuth: true , adminAuth:false , technicianAuth:false}
     },
     {
       path: '/admin',
       name: 'Admin',
       component: Admin,
-      beforeEnter: AuthGuard
+      beforeEnter: AuthGuard,
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
     },
     {
       path: '/signin',
@@ -37,46 +39,53 @@ export default new Router({
       path: '/profile',
       name: 'Profile',
       component: Profile,
-      beforeEnter: AuthGuard
+      beforeEnter: AuthGuard,
+      meta: { requiresAuth: true , adminAuth:false , technicianAuth:false}
     },
     {
       path: '/admin/exams',
       name: 'Exams',
       component: Exams,
-      beforeEnter: AuthGuard
+      beforeEnter: AuthGuard,
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
     },
     {
       path: '/admin/exams/:id',
       name: 'Exam',
       props: true,
       component: Exam,
-      beforeEnter: AuthGuard
+      beforeEnter: AuthGuard,
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
     },
     {
       path: '/admin/exam/new',
       name: 'CreateExam',
       component: CreateExam,
-      beforeEnter: AuthGuard
+      beforeEnter: AuthGuard,
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
     },
     {
       path: '/admin/users',
       name: 'Users',
       component: Users,
-      beforeEnter: AuthGuard
+      beforeEnter: AuthGuard,
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
     },
     {
       path: '/admin/users/:id',
       name: 'User',
       props: true,
       component: User,
-      beforeEnter: AuthGuard
+      beforeEnter: AuthGuard,
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
     },
     {
       path: '/admin/user/new',
       name: 'CreateUser',
       component: CreateUser,
-      beforeEnter: AuthGuard
+      beforeEnter: AuthGuard,
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
     }
   ],
-  mode: 'history'
+  // mode: 'history' (removes hashbang url)
 })

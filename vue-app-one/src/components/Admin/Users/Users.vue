@@ -53,6 +53,14 @@
       loading() {
         return this.$store.getters.loading
       }
+    },
+    methods: {
+      fetchUsers () {
+        this.$store.dispatch('loadUsers')
+      }
+    },
+    beforeMount(){
+      this.fetchUsers()
     }
   }
 
