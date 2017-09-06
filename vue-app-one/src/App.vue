@@ -33,6 +33,7 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
+    <vs-crumbs></vs-crumbs>
     <main>
       <router-view></router-view>
     </main>

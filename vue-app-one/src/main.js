@@ -8,6 +8,7 @@ import router from './router'
 import { store } from './store'
 import AlertCmp from './components/Shared/Alert'
 import ExamCard from './components/Admin/Exams/ExamCard'
+import Breadcrumbs from './components/Shared/Breadcrumbs'
 
 Vue.use(Vuetify)
 Vue.use(Vuelidate)
@@ -15,6 +16,7 @@ Vue.config.productionTip = false
 
 Vue.component('app-alert', AlertCmp)
 Vue.component('exam-card', ExamCard)
+Vue.component('vs-crumbs', Breadcrumbs)
 
 /* eslint-disable no-new */
 new Vue({

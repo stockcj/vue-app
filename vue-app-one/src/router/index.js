@@ -21,14 +21,14 @@ export default new Router({
       name: 'Home',
       component: Home,
       beforeEnter: AuthGuard,
-      meta: { requiresAuth: true , adminAuth:false , technicianAuth:false}
+      meta: { requiresAuth: true , adminAuth:false , technicianAuth:false, crumbs:'Home'}
     },
     {
       path: '/admin',
       name: 'Admin',
       component: Admin,
       beforeEnter: AuthGuard,
-      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false, crumbs:'/Admin'}
     },
     {
       path: '/signin',
@@ -40,14 +40,14 @@ export default new Router({
       name: 'Profile',
       component: Profile,
       beforeEnter: AuthGuard,
-      meta: { requiresAuth: true , adminAuth:false , technicianAuth:false}
+      meta: { requiresAuth: true , adminAuth:false , technicianAuth:false, crumbs:'/Profile'}
     },
     {
       path: '/admin/exams',
       name: 'Exams',
       component: Exams,
       beforeEnter: AuthGuard,
-      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false, crumbs:'/Admin/Exams'}
     },
     {
       path: '/admin/exams/:id',
@@ -55,21 +55,21 @@ export default new Router({
       props: true,
       component: Exam,
       beforeEnter: AuthGuard,
-      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false, crumbs:'/Admin/Exams/Update Exam'}
     },
     {
       path: '/admin/exam/new',
       name: 'CreateExam',
       component: CreateExam,
       beforeEnter: AuthGuard,
-      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false, crumbs:'/Admin/Exams/Create Exam'}
     },
     {
       path: '/admin/users',
       name: 'Users',
       component: Users,
       beforeEnter: AuthGuard,
-      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false, crumbs:'/Admin/Users'}
     },
     {
       path: '/admin/users/:id',
@@ -77,14 +77,14 @@ export default new Router({
       props: true,
       component: User,
       beforeEnter: AuthGuard,
-      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false, crumbs:'/Admin/Users/Update User'}
     },
     {
       path: '/admin/user/new',
       name: 'CreateUser',
       component: CreateUser,
       beforeEnter: AuthGuard,
-      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false}
+      meta: { requiresAuth: true , adminAuth:true , technicianAuth:false, crumbs:'/Admin/Users/Create User'}
     }
   ],
   // mode: 'history' (removes hashbang url)
