@@ -9,6 +9,8 @@ import { store } from './store'
 import AlertCmp from './components/Shared/Alert'
 import ExamCard from './components/Admin/Exams/ExamCard'
 import Breadcrumbs from './components/Shared/Breadcrumbs'
+import Search from './components/Contingency/Search'
+import Issue from './components/Contingency/Issue'
 
 Vue.use(Vuetify)
 Vue.use(Vuelidate)
@@ -17,6 +19,8 @@ Vue.config.productionTip = false
 Vue.component('app-alert', AlertCmp)
 Vue.component('exam-card', ExamCard)
 Vue.component('vs-crumbs', Breadcrumbs)
+Vue.component('cont-search', Search)
+Vue.component('cont-issue', Issue)
 
 /* eslint-disable no-new */
 new Vue({
