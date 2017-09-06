@@ -23,6 +23,17 @@
       <v-toolbar-title><router-link to="/" tag="span" style="cursor: pointer">My Project</router-link></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
+        <v-menu v-if="userIsAdmin" open-on-hover bottom offset-y>
+          <v-btn flat slot="activator" router :to="'/admin'"><v-icon dark left>supervisor_account</v-icon>Admin</v-btn>
+          <v-list>
+            <v-list-tile router :to="'/admin/exams'">
+              <v-list-tile-title>Exams</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile router :to="'/admin/users'">
+              <v-list-tile-title>Users</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
         <v-btn flat v-for="item in menuItems" :key="item.title" router :to="item.link">
           <v-icon dark left>{{item.icon}}</v-icon>
           {{item.title}}
@@ -33,7 +44,7 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <vs-crumbs></vs-crumbs>
+    <vs-crumbs v-if="$route.name !== 'Signin'"></vs-crumbs>
     <main>
       <router-view></router-view>
     </main>
@@ -64,16 +75,11 @@
         let menuItems = [
           { icon: 'lock_open', title: 'Sign in', link:'/signin'}
         ]
-        if (this.userIsAdmin) {
+        if (this.userIsAuthenticated) {
           menuItems = [
-            { icon: 'supervisor_account', title: 'Admin', link:'/admin'},
             { icon: 'account_circle', title: 'Profile', link:'/profile'}
           ]
-        } else if (this.userIsAuthenticated) {
-          menuItems = [
-             { icon: 'account_circle', title: 'Profile', link:'/profile'}
-          ]
-        }
+        } 
         return menuItems
       },
       userIsAuthenticated () {

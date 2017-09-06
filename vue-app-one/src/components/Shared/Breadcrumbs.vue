@@ -5,12 +5,6 @@
       <span class=last v-else>{{ crumb.name }}</span>
     </v-breadcrumbs-item>
   </v-breadcrumbs>
-  <!-- <ul class="vs-crumbs" v-if="crumbs.length" style="list-style:none; margin:0; padding:0; display:inline-block;">
-    <li v-for="(crumb, i) in crumbs" :key="crumb" style="display:inline-block">
-      <router-link v-if="i < crumbs.length-1" :to="crumb.path">{{ crumb.name }}</router-link>
-      <span class=last v-else style="cursor:default">{{ crumb.name }}</span>
-    </li>
-  </ul> -->
 </template>
 
 <script>
@@ -40,5 +34,7 @@ export default {
 </script>
 
 <style>
-
+  .breadcrumbs a {
+    text-decoration: none;
+  }
 </style>
