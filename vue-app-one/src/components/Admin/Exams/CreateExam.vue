@@ -33,7 +33,6 @@
                   @blur="$v.newExam.components.$each[index].name.$touch()"
                   item-text="name"
                   label="Component" 
-                  single-line
                   bottom
                   required></v-select>
                   <v-flex xs10 offset-xs1>

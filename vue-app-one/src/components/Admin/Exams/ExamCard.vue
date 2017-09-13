@@ -7,7 +7,7 @@
           <v-divider></v-divider>
         </v-flex>
       </v-layout>
-      <v-layout row wrap v-for="component in exam.components" :key="component.id">
+      <v-layout row align-baseline v-for="component in exam.components" :key="component.id">
         <v-flex xs3>
           <p class="subheading">{{ component.name }}</p>
         </v-flex>
