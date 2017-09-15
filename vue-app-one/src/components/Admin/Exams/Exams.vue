@@ -18,8 +18,9 @@
     <v-layout row wrap class="mt-5" v-if="!loading">
       <v-flex xs12 md6 v-for="exam in exams" :key="exam.id" class="mt-3">
         <exam-card :exam="exam"></exam-card>
-    </v-flex>
+      </v-flex>
     </v-layout>
+    <snack-alert></snack-alert>
   </v-container>
 </template>
 

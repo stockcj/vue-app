@@ -94,8 +94,8 @@ export default {
   methods: {
     onSearch: function () {
       const searchData = this.search
-      console.log(searchData)
-    }
+      this.$store.dispatch('loadContHistory', searchData)
+    },
   }
 }
 </script>

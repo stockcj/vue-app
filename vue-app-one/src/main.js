@@ -9,6 +9,7 @@ import { store } from './store'
 import AlertCmp from './components/Shared/Alert'
 import ExamCard from './components/Admin/Exams/ExamCard'
 import Breadcrumbs from './components/Shared/Breadcrumbs'
+import Snackbar from './components/Shared/Snackbar'
 import Search from './components/Contingency/Search'
 import Issue from './components/Contingency/Issue'
 
@@ -21,6 +22,7 @@ Vue.component('exam-card', ExamCard)
 Vue.component('vs-crumbs', Breadcrumbs)
 Vue.component('cont-search', Search)
 Vue.component('cont-issue', Issue)
+Vue.component('snack-alert', Snackbar)
 
 /* eslint-disable no-new */
 new Vue({
