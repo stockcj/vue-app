@@ -47,6 +47,7 @@
                 </v-flex>
               </v-layout>
             </form>
+            <pre>{{search}}</pre>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -59,19 +60,23 @@
              <form @submit.prevent="issueCont">
               <v-layout column>
                 <v-flex xs8 offset-xs2>
-                  <v-container>
-                    <v-layout row v-for="s in sVersions" :key="s.version">
-                        <v-flex xs6>
-                          <v-subheader>{{s.component}}</v-subheader>
-                        </v-flex>
-                        <v-flex xs2>
-                          <v-text-field
-                            label="Version"
-                            :value="s.version">
-                          </v-text-field>
-                        </v-flex>
-                    </v-layout>
-                  </v-container>
+                  <v-text-field
+                    label="Centre"
+                    v-model="issuance.centre"
+                    disabled
+                    >
+                  </v-text-field>
+                  <v-text-field
+                    label="Exam"
+                    v-model="issuance.exam.name"
+                    disabled
+                    >
+                  </v-text-field>
+                  <v-text-field row v-for="s in sVersions" :key="s.version"
+                    :label="s.component"
+                    :value="s.version"
+                    >
+                  </v-text-field>
                 </v-flex>
                 <v-flex xs1 offset-xs9>
                   <v-btn
@@ -83,6 +88,7 @@
                 </v-flex>
               </v-layout>
              </form>
+             <pre>{{issuance}}</pre>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -98,7 +104,8 @@ export default {
   data () {
     return {
       search: {centre: '', exam: '', components:[]},
-      sVersions: []
+      sVersions: [],
+      issuance: {centre: '', exam: {name: '', id:'', components:[]}, issueDate: '', testDate: ''}
     }
   },
   computed: {
@@ -138,6 +145,10 @@ export default {
     onSearch: function () {
       const searchData = this.search
       this.$store.dispatch('loadContHistory', searchData)
+      this.issuance.centre = this.search.centre
+      this.issuance.exam.name = this.selectedExam.name
+      this.issuance.exam.id = this.search.exam
+      this.issuance.exam.components = this.search.components
       this.sVersions = this.suggestedVersions()
     },
     findActiveVersions: function (component) {
