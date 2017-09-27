@@ -72,11 +72,13 @@
                     disabled
                     >
                   </v-text-field>
-                  <v-text-field row v-for="s in sVersions" :key="s.version"
-                    :label="s.component"
-                    :value="s.version"
+                  <div v-for="(obj, i) in sVersions" :key="i">
+                    <v-text-field row v-for="(value, name) in obj" :key="name"
+                      :label="name"
+                      :value="value"
                     >
-                  </v-text-field>
+                    </v-text-field>
+                  </div>
                 </v-flex>
                 <v-flex xs1 offset-xs9>
                   <v-btn
@@ -148,8 +150,8 @@ export default {
       this.issuance.centre = this.search.centre
       this.issuance.exam.name = this.selectedExam.name
       this.issuance.exam.id = this.search.exam
-      this.issuance.exam.components = this.search.components
       this.sVersions = this.suggestedVersions()
+      this.issuance.exam.components = this.sVersions
     },
     findActiveVersions: function (component) {
       let activeVersions = [];
@@ -192,7 +194,7 @@ export default {
         if (this.mostRecentContingency.length > 0) {
           for (let version of activeVersions) {
             if (lastVersion[0] != version) {
-              suggestedVersions.push({component, version})
+              suggestedVersions.push({[component]: version})
               break
             }
           }
