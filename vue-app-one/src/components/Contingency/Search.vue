@@ -1,54 +1,93 @@
 <template>
-  <v-flex xs6 offset-xs3>
-    <v-card>
-      <v-card-title primary-title>
-        <h3>Search</h3>
-      </v-card-title>
-      <v-card-text>
-        <form @submit.prevent="onSearch">
-          <v-layout column>
-            <v-flex xs8 offset-xs2>
-              <v-text-field
-                name="centre number"
-                v-model="search.centre"
-                label="Centre Number"
-                :error-messages="centreErrors"
-                @input="$v.search.centre.$touch()"
-                @blur="$v.search.centre.$touch()"
-              ></v-text-field>
-              <v-select
-                v-bind:items="exams"
-                v-model="search.exam"
-                :error-messages="examErrors"
-                @change="$v.search.exam.$touch()"
-                @blur="$v.search.exam.$touch()"
-                item-text="name"
-                item-value="name"
-                label="Exam"
-                bottom
-              ></v-select>
-              <div v-for="exam in exams" :key="exam.id">
-                <div v-if="search.exam === exam.name">
-                  <div v-for="component in exam.components" :key="component.name">
-                    <v-checkbox primary class="pa-0" :label="component.name" :value="component.name" v-model="search.components"></v-checkbox>
+  <v-container fluid grid-list-xl>
+    <v-layout row wrap>
+      <v-flex xs6 offset-xs3>
+        <v-card>
+          <v-card-title primary-title>
+            <h3>Search</h3>
+          </v-card-title>
+          <v-card-text>
+            <form @submit.prevent="onSearch">
+              <v-layout column>
+                <v-flex xs8 offset-xs2>
+                  <v-text-field
+                    name="centre number"
+                    v-model="search.centre"
+                    label="Centre Number"
+                    :error-messages="centreErrors"
+                    @input="$v.search.centre.$touch()"
+                    @blur="$v.search.centre.$touch()"
+                  ></v-text-field>
+                  <v-select
+                    v-bind:items="exams"
+                    v-model="search.exam"
+                    :error-messages="examErrors"
+                    @change="$v.search.exam.$touch()"
+                    @blur="$v.search.exam.$touch()"
+                    item-text="name"
+                    item-value="id"
+                    label="Exam"
+                    bottom
+                  ></v-select>
+                  <div v-for="exam in exams" :key="exam.id">
+                    <div v-if="search.exam === exam.id">
+                      <div v-for="component in exam.components" :key="component.name">
+                        <v-checkbox primary class="pa-0" :label="component.name" :value="component.name" v-model="search.components"></v-checkbox>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </v-flex>
-            <v-flex xs1 offset-xs9>
-              <v-btn
-                large
-                class="primary mt-5"
-                :disabled="$v.search.$invalid"
-                type="submit"
-              >Search</v-btn>
-            </v-flex>
-          </v-layout>
-        </form>
-        <pre>{{search}}</pre>
-      </v-card-text>
-    </v-card>
-  </v-flex>
+                </v-flex>
+                <v-flex xs1 offset-xs9>
+                  <v-btn
+                    large
+                    class="primary mt-5"
+                    :disabled="$v.search.$invalid"
+                    type="submit"
+                  >Search</v-btn>
+                </v-flex>
+              </v-layout>
+            </form>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs6 offset-xs3>
+        <v-card>
+          <v-card-title primary-title>
+            <h3>Issuance</h3>
+          </v-card-title>
+          <v-card-text>
+             <form @submit.prevent="issueCont">
+              <v-layout column>
+                <v-flex xs8 offset-xs2>
+                  <v-container>
+                    <v-layout row v-for="s in sVersions" :key="s.version">
+                        <v-flex xs6>
+                          <v-subheader>{{s.component}}</v-subheader>
+                        </v-flex>
+                        <v-flex xs2>
+                          <v-text-field
+                            label="Version"
+                            :value="s.version">
+                          </v-text-field>
+                        </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-flex>
+                <v-flex xs1 offset-xs9>
+                  <v-btn
+                    v-if="sVersions.length > 0"
+                    large
+                    class="primary mt-5"
+                    type="submit"
+                  >Submit</v-btn>
+                </v-flex>
+              </v-layout>
+             </form>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -59,11 +98,15 @@ export default {
   data () {
     return {
       search: {centre: '', exam: '', components:[]},
+      sVersions: []
     }
   },
   computed: {
     exams () {
       return this.$store.getters.loadedExams
+    },
+    selectedExam () {
+      return this.$store.getters.loadedExam(this.search.exam)
     },
     centreErrors () {
       const errors = []
@@ -95,9 +138,61 @@ export default {
     onSearch: function () {
       const searchData = this.search
       this.$store.dispatch('loadContHistory', searchData)
+      this.sVersions = this.suggestedVersions()
     },
+    findActiveVersions: function (component) {
+      let activeVersions = [];
+      const components = this.selectedExam.components
+      components.forEach(function (value, i) {
+      if (value.name === component) {
+        const versions = value.versions;
+        versions.forEach(function (value, i) {
+          if (value.active === true) {
+            activeVersions.push(value.name)
+          }
+        })
+        }
+      })
+      return activeVersions
+    },
+    mostRecentContingency: function (component) {
+      const issueHistory = []
+      const contHistory = this.$store.getters.loadedContHistory
+      contHistory.map((e) => {
+        if (component in e.exam.components) {
+          issueHistory.push(e)
+        }
+      })
+      issueHistory.sort((a, b) => {
+        return new Date(b.issueDate).getTime() - new Date(a.issueDate).getTime()
+      })
+      if (issueHistory.length > 0) {
+        return issueHistory[0].exam.components[component]
+      } else {
+        return issueHistory
+      }
+    },
+    suggestedVersions: function () {
+      const search = this.search
+      const suggestedVersions = []
+      for (let component of this.search.components) {
+        const activeVersions = this.findActiveVersions(component)
+        const lastVersion = this.mostRecentContingency(component)
+        if (this.mostRecentContingency.length > 0) {
+          for (let version of activeVersions) {
+            if (lastVersion[0] != version) {
+              suggestedVersions.push({component, version})
+              break
+            }
+          }
+        } else {
+          suggestedVersions.push(activeVersions[0])
+        }
+      }
+      return suggestedVersions
+    }
+    }
   }
-}
 </script>
 
 <style>

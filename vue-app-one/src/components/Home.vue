@@ -5,7 +5,6 @@
         <h1 class="text-xs-center">Home Page</h1>
       </v-flex>
       <cont-search class="mt-5"></cont-search>
-      <cont-issue class="mt-5"></cont-issue>
     </v-layout>
   </v-container>
 </template>

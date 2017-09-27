@@ -88,7 +88,7 @@ export default {
           const contHistory = []
           const obj = data.val()
           for (let key in obj) {
-            if (obj[key].exam.name === exam) {
+            if (obj[key].exam.id === exam) {
               contHistory.push({
                 id: key,
                 centre: obj[key].centre,

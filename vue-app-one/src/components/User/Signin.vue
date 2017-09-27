@@ -6,7 +6,7 @@
       </v-flex>
     </v-layout>
     <v-layout>
-      <v-flex xs12 sm6 offset-sm3>
+      <v-flex xs12 md4 offset-md4>
         <v-card>
           <v-card-text>
             <v-container>
