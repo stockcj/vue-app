@@ -72,6 +72,36 @@
                     disabled
                     >
                   </v-text-field>
+                  <v-menu
+                    lazy
+                    :close-on-content-click="false"
+                    v-model="menu"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    :nudge-left="40"
+                    max-width="290px"
+                  >
+                    <v-text-field
+                      slot="activator"
+                      label="Test Date"
+                      v-model="defaultTestDate"
+                      readonly
+                    ></v-text-field>
+                    <v-date-picker 
+                      v-model="defaultTestDate" 
+                      no-title 
+                      scrollable 
+                      actions 
+                      autosave
+                      @input="updateTestDate">
+                    </v-date-picker>
+                  </v-menu>
+                  <v-select
+                    v-bind:items="sittings"
+                    v-model="issuance.sitting"
+                    label="Sitting"
+                  ></v-select>
                   <div v-for="(obj, i) in sVersions" :key="i">
                     <v-text-field row v-for="(value, key) in obj" :key="key"
                       :label="key"
@@ -107,7 +137,16 @@ export default {
     return {
       search: {centre: '', exam: '', components:[]},
       sVersions: [],
-      issuance: {centre: '', exam: {name: '', id:'', components:[]}, issueDate: '', testDate: ''}
+      sittings: ["AM", "PM"],
+      defaultTestDate: new Date().toISOString().substr(0, 10),
+      issuance: {
+        centre: '', 
+        exam: {name: '', id:'', components:[]},
+        sitting: '',
+        issueDate: new Date(), 
+        testDate: new Date(),
+      },
+      menu: false,
     }
   },
   computed: {
@@ -203,6 +242,9 @@ export default {
         }
       }
       return suggestedVersions
+    },
+    updateTestDate: function () {
+      this.issuance.testDate = new Date(this.defaultTestDate)
     }
     }
   }
