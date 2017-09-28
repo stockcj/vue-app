@@ -73,9 +73,9 @@
                     >
                   </v-text-field>
                   <div v-for="(obj, i) in sVersions" :key="i">
-                    <v-text-field row v-for="(value, name) in obj" :key="name"
-                      :label="name"
-                      :value="value"
+                    <v-text-field row v-for="(value, key) in obj" :key="key"
+                      :label="key"
+                      v-model="issuance.exam.components[i][key]"
                     >
                     </v-text-field>
                   </div>
