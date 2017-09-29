@@ -250,8 +250,6 @@ export default {
       this.issuance.issueDate = new Date().toISOString()
       const issueData = this.issuance
       this.$store.dispatch('issueContingency', issueData)
-      document.getElementById("searchForm").reset()
-      document.getElementById("issuanceForm").reset()
     }
     }
   }
