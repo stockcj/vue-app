@@ -40,6 +40,17 @@ export default {
         commit('setLoadedExams', exams)
       })
     },
+    issueContingency({commit}, payload) {
+      const issuance = payload
+      const snackbar = {active: true, text: 'Contingency issued'}
+      firebase.database().ref('issuances').push(issuance)
+        .then(() => {
+          commit('setSnackbar', snackbar)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
     createExam ({commit}, payload) {
       const exam = payload
       const snackbar = {active: true, text: 'Exam created successfully'}
@@ -106,10 +117,6 @@ export default {
           commit('setLoading', false)
         })
     },
-    // loadIssuance({commit}, payload) {
-    //   const contHistory = payload
-
-    // }
   },   
   getters: {
     loadedExams (state) {

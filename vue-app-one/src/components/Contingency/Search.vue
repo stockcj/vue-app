@@ -7,7 +7,7 @@
             <h3>Search</h3>
           </v-card-title>
           <v-card-text>
-            <form @submit.prevent="onSearch">
+            <form @submit.prevent="onSearch" id="searchForm">
               <v-layout column>
                 <v-flex xs8 offset-xs2>
                   <v-text-field
@@ -57,7 +57,7 @@
             <h3>Issuance</h3>
           </v-card-title>
           <v-card-text>
-             <form @submit.prevent="issueCont">
+             <form @submit.prevent="issueContingency" id="issuanceForm">
               <v-layout column>
                 <v-flex xs8 offset-xs2>
                   <v-text-field
@@ -102,17 +102,15 @@
                     v-model="issuance.sitting"
                     label="Sitting"
                   ></v-select>
-                  <div v-for="(obj, i) in sVersions" :key="i">
-                    <v-text-field row v-for="(value, key) in obj" :key="key"
+                  <v-text-field row v-for="(value, key) in sVersions" :key="key"
                       :label="key"
-                      v-model="issuance.exam.components[i][key]"
+                      v-model="issuance.exam.components[key]"
                     >
-                    </v-text-field>
-                  </div>
+                  </v-text-field>
                 </v-flex>
                 <v-flex xs1 offset-xs9>
                   <v-btn
-                    v-if="sVersions.length > 0"
+                    v-if="sVersions != null"
                     large
                     class="primary mt-5"
                     type="submit"
@@ -136,15 +134,15 @@ export default {
   data () {
     return {
       search: {centre: '', exam: '', components:[]},
-      sVersions: [],
+      sVersions: null,
       sittings: ["AM", "PM"],
       defaultTestDate: new Date().toISOString().substr(0, 10),
       issuance: {
         centre: '', 
         exam: {name: '', id:'', components:[]},
         sitting: '',
-        issueDate: new Date(), 
-        testDate: new Date(),
+        issueDate: null, 
+        testDate: new Date().toDateString()
       },
       menu: false,
     }
@@ -211,7 +209,7 @@ export default {
       const issueHistory = []
       const contHistory = this.$store.getters.loadedContHistory
       contHistory.map((e) => {
-        if (component in e.exam.components) {
+        if (e.exam.components.hasOwnProperty(component)) {
           issueHistory.push(e)
         }
       })
@@ -226,25 +224,34 @@ export default {
     },
     suggestedVersions: function () {
       const search = this.search
-      const suggestedVersions = []
+      const suggestedVersions = {}
       for (let component of this.search.components) {
         const activeVersions = this.findActiveVersions(component)
         const lastVersion = this.mostRecentContingency(component)
         if (this.mostRecentContingency.length > 0) {
           for (let version of activeVersions) {
             if (lastVersion[0] != version) {
-              suggestedVersions.push({[component]: version})
+              //suggestedVersions.push({[component]: version})
+              suggestedVersions[component] = version
               break
             }
           }
         } else {
-          suggestedVersions.push(activeVersions[0])
+          //suggestedVersions.push(activeVersions[0])
+          suggestedVersions[component] = activeVersions[0]
         }
       }
       return suggestedVersions
     },
     updateTestDate: function () {
-      this.issuance.testDate = new Date(this.defaultTestDate)
+      this.issuance.testDate = new Date(this.defaultTestDate).toDateString()
+    },
+    issueContingency: function () {
+      this.issuance.issueDate = new Date().toISOString()
+      const issueData = this.issuance
+      this.$store.dispatch('issueContingency', issueData)
+      document.getElementById("searchForm").reset()
+      document.getElementById("issuanceForm").reset()
     }
     }
   }
