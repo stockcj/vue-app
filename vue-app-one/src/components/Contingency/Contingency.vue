@@ -19,28 +19,24 @@
           :items="recent"
           :loading="loading"
           hide-actions
-          class="elevation-1 mt-5"
-        >
-        <template slot="items" scope="props">
-          <tr @click.prevent.stop="dialog = true; selected = props.item">
-            <td>{{ props.item.centre }}</td>
-            <td class="text-xs-right">{{ props.item.exam.name }}</td>
-            <td class="text-xs-right">{{ props.item.sitting }}</td>
-            <td class="text-xs-right">{{ props.item.testDate }}</td>
-            <td class="text-xs-right">{{ props.item.issueDate }}</td>
-          </tr>
-        </template>
+          item-key="id"
+          class="elevation-1 mt-5">
+          <template slot="items" scope="props">
+            <tr @click="props.expanded = !props.expanded; selected = props.item">
+              <td>{{ props.item.centre }}</td>
+              <td class="text-xs-right">{{ props.item.exam.name }}</td>
+              <td class="text-xs-right">{{ props.item.sitting }}</td>
+              <td class="text-xs-right">{{ props.item.testDate }}</td>
+              <td class="text-xs-right">{{ props.item.issueDate }}</td>
+            </tr>
+          </template>
+          <template slot="expand" scope="props">
+            <v-card class="elevation-0">
+              <v-card-text>Issued by: {{selected.issuedBy}}</v-card-text>
+              <v-card-text v-for="(value, key) in selected.components" :key="key" class="pt-0">{{key}} : {{value}}</v-card-text>
+            </v-card>
+          </template>
         </v-data-table>
-        <v-dialog v-model="dialog">
-          <v-card>
-            <v-card-title class="headline">Details</v-card-title>
-            <v-card-text>Centre: {{selected.centre}}</v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn primary flat="flat" @click.native="dialog = false">Close</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-flex>
     </v-layout>
     <snack-alert></snack-alert>

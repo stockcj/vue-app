@@ -36,15 +36,19 @@ export default {
         firebase.database().ref('issuances').orderByChild("issueDate").limitToLast(10).on("child_added", function(snapshot) {
           const obj = snapshot.val()
           recentHistory.push({
+            id: snapshot.key,
             centre: obj.centre,
             sitting: obj.sitting,
             exam: obj.exam,
+            components: obj.exam.components,
             testDate: obj.testDate,
             issueDate: new Date(obj.issueDate).toString().substr(0, 25),
             issuedBy: obj.issuedBy
           })
           commit('setRecentHistory', recentHistory)
           commit('setLoading', false)
+        }, function(error) {
+          console.log(error)
         })
       },
       loadContHistory ({commit}, payload) {

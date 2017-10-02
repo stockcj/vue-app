@@ -2,7 +2,7 @@
   <v-snackbar
       :timeout="6000"
       bottom
-      success
+      color="success"
       v-model="snackbar.active"
     >
       {{ snackbar.text }}
