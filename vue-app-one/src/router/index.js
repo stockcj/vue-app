@@ -10,6 +10,8 @@ import CreateExam from '@/components/Admin/Exams/CreateExam'
 import Users from '@/components/Admin/Users/Users'
 import User from '@/components/Admin/Users/User'
 import CreateUser from '@/components/Admin/Users/CreateUser'
+import Contingency from '@/components/Contingency/Contingency'
+import IssueCont from '@/components/Contingency/IssueCont'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -85,6 +87,20 @@ export default new Router({
       component: CreateUser,
       beforeEnter: AuthGuard,
       meta: { requiresAuth: true , adminAuth:true , technicianAuth:false, crumbs:'/Admin/Users/Create User'}
+    },
+    {
+      path: '/contingency',
+      name: 'Contingency',
+      component: Contingency,
+      beforeEnter: AuthGuard,
+      meta: { requiresAuth: true , adminAuth:false , technicianAuth:false, crumbs:'/Contingency'}
+    },
+    {
+      path: '/contingency/issue',
+      name: 'IssueCont',
+      component: IssueCont,
+      beforeEnter: AuthGuard,
+      meta: { requiresAuth: true , adminAuth:false , technicianAuth:false, crumbs:'/Contingency/Issue'}
     }
   ],
   // mode: 'history' (removes hashbang url)
