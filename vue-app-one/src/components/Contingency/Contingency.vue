@@ -32,8 +32,10 @@
           </template>
           <template slot="expand" scope="props">
             <v-card class="elevation-0">
-              <v-card-text>Issued by: {{selected.issuedBy}}</v-card-text>
-              <v-card-text v-for="(value, key) in selected.components" :key="key" class="pt-0">{{key}} : {{value}}</v-card-text>
+              <v-card-text>
+                <p v-for="(value, key) in selected.components" :key="key">{{key}} : {{value}}</p>
+                <p>Issued by: {{selected.issuedBy}}</p>
+              </v-card-text>
             </v-card>
           </template>
         </v-data-table>
