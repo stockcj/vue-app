@@ -6,10 +6,10 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
-            <v-flex xs6 offset-xs3>
+            <v-flex xs12 md6 offset-md3>
                 <v-card>
                 <v-card-title primary-title>
-                    <h3>Search</h3>
+                    <h4>Search</h4>
                 </v-card-title>
                 <v-card-text>
                     <form @submit.prevent="onSearch" id="searchForm">
@@ -59,7 +59,7 @@
             <v-flex xs6 offset-xs3>
                 <v-card>
                 <v-card-title primary-title>
-                    <h3>Issuance</h3>
+                    <h4>Issuance</h4>
                 </v-card-title>
                 <v-card-text>
                     <form @submit.prevent="issueContingency" id="issuanceForm">
@@ -147,7 +147,8 @@ export default {
         exam: {name: '', id:'', components:[]},
         sitting: '',
         issueDate: null, 
-        testDate: new Date().toDateString()
+        testDate: new Date().toDateString(),
+        issuedBy: ''
       },
       menu: false,
     }
@@ -251,6 +252,7 @@ export default {
     },
     issueContingency: function () {
       this.issuance.issueDate = new Date().toISOString()
+      this.issuance.issuedBy = this.$store.getters.user.profile.displayName
       const issueData = this.issuance
       this.$store.dispatch('issueContingency', issueData)
       this.$router.push('/contingency')

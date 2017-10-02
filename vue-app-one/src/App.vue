@@ -2,6 +2,12 @@
   <v-app light>
     <v-navigation-drawer v-model="sideNav" temporary>
       <v-list>
+        <v-list-tile router :to="'/admin'">
+          <v-list-tile-action>
+            <v-icon>settings</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>Admin</v-list-tile-content>
+        </v-list-tile>
         <v-list-tile v-for="item in menuItems" :key="item.title" router :to="item.link">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -24,7 +30,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
         <v-menu v-if="userIsAdmin" open-on-hover bottom offset-y>
-          <v-btn flat slot="activator" router :to="'/admin'"><v-icon dark left>supervisor_account</v-icon>Admin</v-btn>
+          <v-btn flat slot="activator" router :to="'/admin'"><v-icon dark left>settings</v-icon><div class="hidden-sm-and-down">Admin</div></v-btn>
           <v-list>
             <v-list-tile router :to="'/admin/exams'">
               <v-list-tile-title>Exams</v-list-tile-title>
@@ -36,11 +42,11 @@
         </v-menu>
         <v-btn flat v-for="item in menuItems" :key="item.title" router :to="item.link">
           <v-icon dark left>{{item.icon}}</v-icon>
-          {{item.title}}
+          <div class="hidden-sm-and-down">{{item.title}}</div>
         </v-btn>
         <v-btn flat v-if="userIsAuthenticated" @click="onLogout">
           <v-icon dark left>exit_to_app</v-icon>
-          Logout
+          <div class="hidden-sm-and-down">Logout</div>
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
@@ -77,7 +83,8 @@
         ]
         if (this.userIsAuthenticated) {
           menuItems = [
-            { icon: 'account_circle', title: 'Profile', link:'/profile'}
+            { icon: 'account_circle', title: 'Profile', link:'/profile'},
+            { icon: 'create', title: 'Contingency', link:'/contingency'}
           ]
         } 
         return menuItems

@@ -3,7 +3,7 @@
     <v-layout row wrap align-center class="mt-5">
       <v-flex xs12>
         <h1 class="text-xs-center">Admin Page</h1>
-        <v-flex xs12 sm6 offset-sm3 class="mt-5">
+        <v-flex xs12 md6 offset-md3 class="mt-5">
           <v-card class="mt-3"><router-link to='/admin/exams' tag="span" style="cursor: pointer">
             <v-card-title primary-title>
               <div>
