@@ -22,7 +22,7 @@
           item-key="id"
           class="elevation-1 mt-5">
           <template slot="items" scope="props">
-            <tr @click="props.expanded = !props.expanded; selected = props.item">
+            <tr @click="props.expanded = !props.expanded">
               <td>{{ props.item.centre }}</td>
               <td class="text-xs-right">{{ props.item.exam.name }}</td>
               <td class="text-xs-right">{{ props.item.sitting }}</td>
@@ -50,7 +50,6 @@ export default {
   data () {
     return {
       dialog: false,
-      selected: {},
       headers: [
         {
           text: 'Centre',
