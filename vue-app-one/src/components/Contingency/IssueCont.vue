@@ -112,6 +112,11 @@
                             v-model="issuance.exam.components[key]"
                             >
                         </v-text-field>
+                        <v-text-field
+                            label="Zendesk Reference"
+                            v-model="issuance.zendeskRef"
+                            >
+                        </v-text-field>
                         </v-flex>
                         <v-flex xs1 offset-xs9>
                         <v-btn
@@ -148,7 +153,8 @@ export default {
         sitting: '',
         issueDate: null, 
         testDate: new Date().toDateString(),
-        issuedBy: ''
+        issuedBy: '',
+        zendeskRef: ''
       },
       menu: false,
     }

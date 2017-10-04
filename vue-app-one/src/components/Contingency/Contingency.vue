@@ -35,6 +35,7 @@
               <v-card-text>
                 <p v-for="(value, key) in props.item.components" :key="key">{{key}} : {{value}}</p>
                 <p>Issued by: {{props.item.issuedBy}}</p>
+                <p>Zendesk Ref: {{props.item.zendeskRef}}</p>
               </v-card-text>
             </v-card>
           </template>

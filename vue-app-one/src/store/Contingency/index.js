@@ -43,7 +43,8 @@ export default {
             components: obj.exam.components,
             testDate: obj.testDate,
             issueDate: new Date(obj.issueDate).toString().substr(0, 25),
-            issuedBy: obj.issuedBy
+            issuedBy: obj.issuedBy,
+            zendeskRef: obj.zendeskRef
           })
           commit('setRecentHistory', recentHistory)
           commit('setLoading', false)
