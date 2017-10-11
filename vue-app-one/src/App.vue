@@ -52,7 +52,9 @@
     </v-toolbar>
     <vs-crumbs v-if="$route.name !== 'Signin'"></vs-crumbs>
     <main>
-      <router-view></router-view>
+      <v-content>
+        <router-view></router-view>
+      </v-content>
     </main>
     <v-footer class="pa-3">
       <v-spacer></v-spacer>
