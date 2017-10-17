@@ -26,7 +26,7 @@
       <div class="hidden-sm-and-up">
         <v-toolbar-side-icon @click.stop="sideNav = !sideNav" ></v-toolbar-side-icon>
       </div>
-      <v-toolbar-title><router-link to="/" tag="span" style="cursor: pointer">My Project</router-link></v-toolbar-title>
+      <v-toolbar-title><router-link to="/" tag="span" style="cursor: pointer">Contingency Tracker</router-link></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
         <v-menu v-if="userIsAdmin" open-on-hover bottom offset-y>
