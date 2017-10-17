@@ -49,6 +49,7 @@ export default {
         })
     },
     createUser ({commit}, payload) {
+      commit('clearError')
       const newFbConn = firebase.initializeApp(firebaseConfig, 'secondary')
       newFbConn.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then(fbAuth => {
@@ -67,12 +68,9 @@ export default {
            }
           };
           firebase.database().ref('/').update(updateUserData)
-          .catch((error) => {
-            console.log(error)
-          })
         })
         .catch((error) => {
-          console.log(error)
+          commit('setError', error)
         })
     },
     updateUser ({commit}, payload) {

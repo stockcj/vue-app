@@ -64,7 +64,7 @@
                 @input="$v.newUser.confirmPassword.$touch()"
                 @blur="$v.newUser.confirmPassword.$touch()"
                 label="Confirm Password"
-                type="confirmPassword"
+                type="password"
                 required>
               </v-text-field>
             </v-flex>
@@ -80,7 +80,11 @@
           </v-layout>
         </form>
       </v-flex>
-      <pre>{{newUser}}</pre>
+    </v-layout>
+    <v-layout row v-if="error">
+      <v-flex xs12 sm6 offset-sm3>
+        <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -117,6 +121,9 @@ export default {
   computed: {
     roles () {
       return this.$store.getters.loadedRoles
+    },
+    error () {
+      return this.$store.getters.error
     },
     displayNameErrors () {
       const errors = []
@@ -156,10 +163,13 @@ export default {
     onCreateUser: function () {
       const userData = this.newUser
       this.$store.dispatch('createUser', userData)
-      this.$router.push('/admin/users')
+      // this.$router.push('/admin/users')
     },
     fetchRoles: function () {
       this.$store.dispatch('loadRoles')
+    },
+    onDismissed () {
+      this.$store.dispatch('clearError')
     }
   },
   beforeMount(){
