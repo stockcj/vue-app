@@ -68,9 +68,23 @@ export default {
            }
           };
           firebase.database().ref('/').update(updateUserData)
+          firebase.app('secondary').delete()
+          .then(() => {
+            console.log("App deleted successfully")
+          })
+          .catch((error) => {
+            console.log("Error deleting app:", error)
+          })
         })
         .catch((error) => {
           commit('setError', error)
+          firebase.app('secondary').delete()
+          .then(() => {
+            console.log("App deleted successfully")
+          })
+          .catch((error) => {
+            console.log("Error deleting app:", error)
+          })
         })
     },
     updateUser ({commit}, payload) {

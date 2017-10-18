@@ -163,7 +163,10 @@ export default {
     onCreateUser: function () {
       const userData = this.newUser
       this.$store.dispatch('createUser', userData)
-      // this.$router.push('/admin/users')
+      // the below is running before the user creation completes and any errors are returned, need to make asynchronous
+      // if (this.error == null) {
+      //   this.$router.push('/admin/users')
+      // }
     },
     fetchRoles: function () {
       this.$store.dispatch('loadRoles')
