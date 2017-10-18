@@ -50,6 +50,7 @@ export default {
     },
     createUser ({commit}, payload) {
       commit('clearError')
+      const snackbar = {active: true, text: 'User created successfully'}
       const newFbConn = firebase.initializeApp(firebaseConfig, 'secondary')
       newFbConn.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then(fbAuth => {
@@ -68,6 +69,7 @@ export default {
            }
           };
           firebase.database().ref('/').update(updateUserData)
+          commit('setSnackbar', snackbar)
           firebase.app('secondary').delete()
           .then(() => {
             console.log("App deleted successfully")

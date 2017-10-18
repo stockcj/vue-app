@@ -86,6 +86,7 @@
         <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
       </v-flex>
     </v-layout>
+    <snack-alert></snack-alert>
   </v-container>
 </template>
 
@@ -163,10 +164,6 @@ export default {
     onCreateUser: function () {
       const userData = this.newUser
       this.$store.dispatch('createUser', userData)
-      // the below is running before the user creation completes and any errors are returned, need to make asynchronous
-      // if (this.error == null) {
-      //   this.$router.push('/admin/users')
-      // }
     },
     fetchRoles: function () {
       this.$store.dispatch('loadRoles')
