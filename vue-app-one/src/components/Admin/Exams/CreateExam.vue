@@ -6,74 +6,82 @@
       </v-flex>
     </v-layout>
     <v-layout row>
-      <v-flex xs12 md6 offset-md3>
-        <form @submit.prevent="onCreateExam" class="mt-5">
-          <v-layout>
-            <v-flex xs12>
-              <v-text-field
-                name="name"
-                v-model="newExam.name"
-                :error-messages="examNameErrors"
-                @input="$v.newExam.name.$touch()"
-                @blur="$v.newExam.name.$touch()"
-                label="Exam Name"
-                required></v-text-field>
-              <div class="mt-3" v-for="(component, index) in newExam.components" :key="component.name">
-                <v-layout row justify-space-between>
-                  <h5 style="margin: 8px 0px;">Component #{{index + 1}}</h5>
-                  <v-btn v-if="newExam.components.length > 1" @click="removeComponent(component)" icon class="red--text">
-                    <v-icon dark>clear</v-icon>
-                  </v-btn>
-                </v-layout>
-                <v-select
-                  v-bind:items="componentsArray"
-                  v-model="component.name"
-                  :error-messages="componentNameErrors(index)"
-                  @change="$v.newExam.components.$each[index].name.$touch()"
-                  @blur="$v.newExam.components.$each[index].name.$touch()"
-                  item-text="name"
-                  label="Component" 
-                  bottom
-                  required></v-select>
-                  <v-flex xs10 offset-xs1>
-                  <v-card v-for="(version, vindex) in component.versions" :key="version.name" class="mt-3">
-                    <v-card-text>
-                      <v-layout row justify-space-between>
-                      <h6 style="margin: 14px 0px;">Version #{{vindex + 1}}</h6>
-                      <v-btn v-if="component.versions.length > 1" @click="removeVersion(component, version)" icon class="red--text">
-                        <v-icon dark>clear</v-icon>
-                      </v-btn>
-                    </v-layout>
-                    <v-text-field
-                      v-model="version.name"
-                      :error-messages="versionNameErrors(index, vindex)"
-                      @input="$v.newExam.components.$each[index].versions.$each[vindex].name.$touch()"
-                      @blur="$v.newExam.components.$each[index].versions.$each[vindex].name.$touch()"
-                      name="name"
-                      label="Version Name"
-                      id="versionName"
-                      required></v-text-field>
-                    <v-switch
-                      v-bind:label="addLabel(version.active)" 
-                      v-model="version.active"></v-switch>
-                    </v-card-text>              
-                  </v-card>
-                  <v-btn small @click="addVersion(component)" class="mt-3">Add Version</v-btn>
-                  </v-flex>
-              </div>
-              <v-btn small dark class="mt-5 pink" @click="addComponent()">Add Component</v-btn>
-            </v-flex>
-          </v-layout>
-          <v-layout row>
-            <v-flex>
-              <v-btn
-                class="primary mt-5"
-                :disabled="$v.newExam.$invalid"
-                type="submit"
-                >Create Exam</v-btn>
-            </v-flex>
-          </v-layout>
-        </form>
+      <v-flex xs12 md4 offset-md4>
+        <v-card>
+          <v-container>
+            <v-layout>
+              <v-flex xs12>
+                <form @submit.prevent="onCreateExam" class="mt-5">
+                  <v-layout>
+                    <v-flex xs12>
+                      <v-text-field
+                        name="name"
+                        v-model="newExam.name"
+                        :error-messages="examNameErrors"
+                        @input="$v.newExam.name.$touch()"
+                        @blur="$v.newExam.name.$touch()"
+                        label="Exam Name"
+                        required></v-text-field>
+                      <div class="mt-3" v-for="(component, index) in newExam.components" :key="component.name">
+                        <v-layout row justify-space-between>
+                          <h5 style="margin: 8px 0px;">Component #{{index + 1}}</h5>
+                          <v-btn v-if="newExam.components.length > 1" @click="removeComponent(component)" flat icon color="red">
+                            <v-icon>clear</v-icon>
+                          </v-btn>
+                        </v-layout>
+                        <v-select
+                          v-bind:items="componentsArray"
+                          v-model="component.name"
+                          :error-messages="componentNameErrors(index)"
+                          @change="$v.newExam.components.$each[index].name.$touch()"
+                          @blur="$v.newExam.components.$each[index].name.$touch()"
+                          item-text="name"
+                          label="Component" 
+                          bottom
+                          required></v-select>
+                          <v-flex xs10 offset-xs1>
+                          <v-card flat v-for="(version, vindex) in component.versions" :key="version.name" class="mt-3">
+                            <v-card-text>
+                              <v-layout row justify-space-between>
+                              <h6 style="margin: 14px 0px;">Version #{{vindex + 1}}</h6>
+                              <v-btn v-if="component.versions.length > 1" @click="removeVersion(component, version)" flat icon color="red">
+                                <v-icon>clear</v-icon>
+                              </v-btn>
+                            </v-layout>
+                            <v-text-field
+                              v-model="version.name"
+                              :error-messages="versionNameErrors(index, vindex)"
+                              @input="$v.newExam.components.$each[index].versions.$each[vindex].name.$touch()"
+                              @blur="$v.newExam.components.$each[index].versions.$each[vindex].name.$touch()"
+                              name="name"
+                              label="Version Name"
+                              id="versionName"
+                              required></v-text-field>
+                            <v-switch
+                              v-bind:label="addLabel(version.active)" 
+                              v-model="version.active"></v-switch>
+                            </v-card-text>              
+                          </v-card>
+                          <v-btn small @click="addVersion(component)" class="mt-3">Add Version</v-btn>
+                          </v-flex>
+                      </div>
+                      <v-btn small dark class="mt-5 pink" @click="addComponent()">Add Component</v-btn>
+                    </v-flex>
+                  </v-layout>
+                  <v-layout row>
+                    <v-flex>
+                      <v-btn
+                        class="primary mt-5"
+                        :disabled="$v.newExam.$invalid"
+                        type="submit"
+                        >Create Exam</v-btn>
+                    </v-flex>
+                  </v-layout>
+                </form>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
       </v-flex>
     </v-layout>
   </v-container>
