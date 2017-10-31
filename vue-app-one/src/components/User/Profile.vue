@@ -16,11 +16,17 @@
                   <v-text-field
                   label="Display Name"
                   v-model="currentUser.profile.displayName"
+                  :error-messages="displayNameErrors"
+                  @input="$v.currentUser.profile.displayName.$touch()"
+                  @blur="$v.currentUser.profile.displayName.$touch()"
                   required>
                   </v-text-field>
                   <v-text-field
                   label="Username"
                   v-model="currentUser.profile.username"
+                  :error-messages="userNameErrors"
+                  @input="$v.currentUser.profile.username.$touch()"
+                  @blur="$v.currentUser.profile.username.$touch()"
                   required>
                   </v-text-field>
                   <v-text-field
@@ -33,7 +39,8 @@
               <v-layout row>
                 <v-flex>
                   <v-btn
-                    class="primary mt-5"
+                    class="primary mt-2"
+                    :disabled="$v.currentUser.$invalid"
                     type="submit"
                     >Update Profile</v-btn>
                 </v-flex>
@@ -58,6 +65,16 @@ import { required, minLength, email } from 'vuelidate/lib/validators'
 
 export default {
   mixins: [validationMixin],
+  validations: {
+    currentUser: {
+      required,
+      profile: {
+        displayName: {required},
+        email: {required, email},
+        username: {required, minLength: minLength(3)}
+      }
+    }
+  },
   data () {
     return {
       currentUser: {}
@@ -66,6 +83,26 @@ export default {
   computed: {
     error () {
       return this.$store.getters.error
+    },
+    userNameErrors () {
+      const errors = []
+      if (!this.$v.currentUser.profile.username.$dirty) return errors
+      !this.$v.currentUser.profile.username.minLength && errors.push('Name must be at least 3 characters long')
+      !this.$v.currentUser.profile.username.required && errors.push('Username is required.')
+      return errors
+    },
+    displayNameErrors () {
+      const errors = []
+      if (!this.$v.currentUser.profile.displayName.$dirty) return errors
+      !this.$v.currentUser.profile.displayName.required && errors.push('Display Name is required.')
+      return errors
+    },
+    emailErrors () {
+      const errors = []
+      if (!this.$v.currentUser.email.$dirty) return errors
+      !this.$v.currentUser.email.required && errors.push('Email is required.')
+      !this.$v.currentUser.email.email && errors.push('Must be a valid email address')
+      return errors
     }
   },
   methods: {
