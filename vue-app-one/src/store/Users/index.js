@@ -95,6 +95,19 @@ export default {
     deleteUser () {
       //
     },
+    updateProfile ({commit}, payload) {
+      commit('clearError')
+      const snackbar = {active: true, text: 'Profile updated successfully'}
+      const update = payload
+      firebase.database().ref('users').child(payload.id).update(update)
+        .then(() => {
+          commit('updateProfile', payload)
+          commit('setSnackbar', snackbar)
+        })
+        .catch(error => {
+          commit('setError', error)
+        })
+    },
     signUserIn ({commit}, payload) {
       commit('clearError')
       commit('setLoading', true)
@@ -106,6 +119,7 @@ export default {
             .then((data) => {
               const obj = data.val()
               const currentUser = {
+                id: user.uid,
                 profile: {
                   displayName: obj.profile.displayName,
                   username: obj.profile.username,
@@ -133,12 +147,14 @@ export default {
         .then((data) => {
           const obj = data.val()
           const currentUser = {
+            id: payload.uid,
             profile: {
               displayName: obj.profile.displayName,
               username: obj.profile.username,
               email: obj.profile.email
             },
             role: {
+              id: obj.role.id,
               name: obj.role.name
             }
           }
