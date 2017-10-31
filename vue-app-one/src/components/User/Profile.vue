@@ -120,14 +120,14 @@ export default {
       this.$store.dispatch('updateProfile', userData)
     },
     cancelChanges () {
-      this.currentUser = Object.assign({}, this.$store.getters.user)
+      this.currentUser = Object.assign({}, JSON.parse(JSON.stringify(this.$store.getters.user)))
     },
     onDismissed () {
       this.$store.dispatch('clearError')
     }
   },
   created (){
-    this.currentUser = Object.assign({}, this.$store.getters.user)
+    this.currentUser = Object.assign({}, JSON.parse(JSON.stringify(this.$store.getters.user)))
   }
 }
 </script>
