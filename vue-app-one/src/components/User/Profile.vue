@@ -28,15 +28,6 @@
                   v-model="currentUser.profile.email"
                   required>
                   </v-text-field>
-                  <!-- <v-select
-                  v-bind:items="roles"
-                  v-model="currentUser.role"
-                  label="Select Role"
-                  single-line
-                  item-text="name"
-                  item-value="id"
-                  return-object
-                  ></v-select> -->
                 </v-flex>
               </v-layout>
               <v-layout row>
@@ -62,37 +53,34 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        currentUser: {}
-      }
-    },
-    computed: {
-      roles () {
-        return this.$store.getters.loadedRoles
-      },
-      error () {
-        return this.$store.getters.error
-      }
-    },
-    methods: {
-      fetchRoles: function () {
-        this.$store.dispatch('loadRoles')
-      },
-      onUpdateProfile: function () {
-        const userData = this.currentUser
-        this.$store.dispatch('updateProfile', userData)
-      },
-      onDismissed () {
-        this.$store.dispatch('clearError')
-      }
-    },
-    created (){
-      this.fetchRoles()
-      this.currentUser = Object.assign({}, this.$store.getters.user)
+import { validationMixin } from 'vuelidate'
+import { required, minLength, email } from 'vuelidate/lib/validators'
+
+export default {
+  mixins: [validationMixin],
+  data () {
+    return {
+      currentUser: {}
     }
+  },
+  computed: {
+    error () {
+      return this.$store.getters.error
+    }
+  },
+  methods: {
+    onUpdateProfile: function () {
+      const userData = this.currentUser
+      this.$store.dispatch('updateProfile', userData)
+    },
+    onDismissed () {
+      this.$store.dispatch('clearError')
+    }
+  },
+  created (){
+    this.currentUser = Object.assign({}, this.$store.getters.user)
   }
+}
 </script>
 
 <style>

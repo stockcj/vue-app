@@ -15,7 +15,7 @@ export default {
       state.loadedUsers.push(payload)
     },
     updateUser (state, payload) {
-      const user = state.loadedExams.find(user => {
+      const user = state.loadedUsers.find(user => {
         return user.id === payload.id
       })
     },
@@ -90,7 +90,17 @@ export default {
         })
     },
     updateUser ({commit}, payload) {
-      //
+      commit('clearError')
+      const snackbar = {active: true, text: 'User updated successfully'}
+      const update = payload
+      firebase.database().ref('users').child(payload.id).update(update)
+        .then(() => {
+          commit('updateUser', payload)
+          commit('setSnackbar', snackbar)
+        })
+        .catch(error => {
+          commit('setError', error)
+        })
     },
     deleteUser () {
       //
@@ -101,7 +111,6 @@ export default {
       const update = payload
       firebase.database().ref('users').child(payload.id).update(update)
         .then(() => {
-          commit('updateProfile', payload)
           commit('setSnackbar', snackbar)
         })
         .catch(error => {
