@@ -112,7 +112,9 @@ export default {
                   email: obj.profile.email
                 },
                 role: {
+                  id: obj.role.id,
                   name: obj.role.name
+                  
                 }
               }
               commit('setUser', currentUser)

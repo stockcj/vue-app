@@ -11,32 +11,31 @@
           </v-card-title>
           <v-card-text>
             <form action="">
-              <pre>{{updatedUser}}</pre>
+              <pre>{{currentUser}}</pre>
               <v-text-field
                label="Display Name"
-               v-model="updatedUser.profile.displayName"
+               v-model="currentUser.profile.displayName"
                required>
               </v-text-field>
               <v-text-field
                label="Username"
-               v-model="updatedUser.profile.username"
+               v-model="currentUser.profile.username"
                required>
               </v-text-field>
               <v-text-field
                label="Email"
-               v-model="updatedUser.profile.email"
+               v-model="currentUser.profile.email"
                required>
               </v-text-field>
               <v-select
-               name="role"
                v-bind:items="roles"
-               item-text="name"
-               v-model="updatedUser.role"
+               v-model="currentUser.role"
                label="Select Role"
-               return-object
                single-line
-               bottom>
-              </v-select>
+               item-text="name"
+               item-value="id"
+               return-object
+              ></v-select>
             </form>
           </v-card-text>
         </v-card>
@@ -49,13 +48,10 @@
   export default {
     data () {
       return {
-        updatedUser: ''
+        currentUser: {}
       }
     },
     computed: {
-      user () {
-        this.updatedUser = this.$store.getters.user
-      },
       roles () {
         return this.$store.getters.loadedRoles
       }
@@ -65,8 +61,9 @@
         this.$store.dispatch('loadRoles')
       }
     },
-    beforeMount(){
+    created (){
       this.fetchRoles()
+      this.currentUser = Object.assign({}, this.$store.getters.user)
     }
   }
 </script>
