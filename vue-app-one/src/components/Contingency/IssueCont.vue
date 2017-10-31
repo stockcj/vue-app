@@ -52,7 +52,6 @@
                         </v-flex>
                     </v-layout>
                     </form>
-                    <pre>{{search}}</pre>
                 </v-card-text>
                 </v-card>
             </v-flex>
@@ -128,7 +127,6 @@
                         </v-flex>
                     </v-layout>
                     </form>
-                    <pre>{{issuance}}</pre>
                 </v-card-text>
                 </v-card>
             </v-flex>
