@@ -32,6 +32,9 @@
                   <v-text-field
                   label="Email"
                   v-model="currentUser.profile.email"
+                  :error-messages="emailErrors"
+                  @input="$v.currentUser.profile.email.$touch()"
+                  @blur="$v.currentUser.profile.email.$touch()"
                   required>
                   </v-text-field>
                 </v-flex>
@@ -42,7 +45,13 @@
                     class="primary mt-2"
                     :disabled="$v.currentUser.$invalid"
                     type="submit"
-                    >Update Profile</v-btn>
+                    >Update Profile
+                    </v-btn>
+                    <v-btn
+                    class="mt-2"
+                    @click="cancelChanges"
+                    >Cancel
+                    </v-btn>
                 </v-flex>
               </v-layout>
             </form>
@@ -99,9 +108,9 @@ export default {
     },
     emailErrors () {
       const errors = []
-      if (!this.$v.currentUser.email.$dirty) return errors
-      !this.$v.currentUser.email.required && errors.push('Email is required.')
-      !this.$v.currentUser.email.email && errors.push('Must be a valid email address')
+      if (!this.$v.currentUser.profile.email.$dirty) return errors
+      !this.$v.currentUser.profile.email.required && errors.push('Email is required.')
+      !this.$v.currentUser.profile.email.email && errors.push('Must be a valid email address')
       return errors
     }
   },
@@ -109,6 +118,9 @@ export default {
     onUpdateProfile: function () {
       const userData = this.currentUser
       this.$store.dispatch('updateProfile', userData)
+    },
+    cancelChanges () {
+      Object.assign(this.$data.currentUser, this.$store.getters.user)
     },
     onDismissed () {
       this.$store.dispatch('clearError')
