@@ -104,7 +104,11 @@
                         <v-select
                             v-bind:items="sittings"
                             v-model="issuance.sitting"
+                            :error-messages="sittingErrors"
+                            @change="$v.issuance.sitting.$touch()"
+                            @blur="$v.issuance.sitting.$touch()"
                             label="Sitting"
+                            required
                         ></v-select>
                         <v-text-field row v-for="(value, key) in sVersions" :key="key"
                             :label="key"
@@ -114,12 +118,16 @@
                         <v-text-field
                             label="Zendesk Reference"
                             v-model="issuance.zendeskRef"
+                            :error-messages="zdRefErrors"
+                            @input="$v.issuance.zendeskRef.$touch()"
+                            @blur="$v.issuance.zendeskRef.$touch()"
+                            required
                             >
                         </v-text-field>
                         </v-flex>
                         <v-flex xs1 offset-xs9>
                         <v-btn
-                            v-if="sVersions != null"
+                            :disabled="$v.issuance.$invalid"
                             large
                             class="primary mt-5"
                             type="submit"
@@ -140,14 +148,6 @@ import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
   mixins: [validationMixin],
-  validations: {
-    issuance: {
-      required,
-      testDate: {required},
-      sitting: {required},
-      zendeskRef: {required}
-    }
-  },
   data () {
     return {
       search: {centre: '', exam: '', components:[]},
@@ -184,9 +184,23 @@ export default {
     examErrors () {
       const errors = []
       if (!this.$v.search.exam.$dirty) return errors
-      !this.$v.search.exam.required && errors.push('Centre number is required.')
+      !this.$v.search.exam.required && errors.push('Exam is required.')
       return errors
     },
+    sittingErrors () {
+      const errors = []
+      if (!this.$v.issuance.sitting.$dirty) return errors
+      !this.$v.issuance.sitting.required && errors.push('Sitting is required.')
+      return errors
+    },
+    zdRefErrors () {
+      const errors = []
+      if (!this.$v.issuance.zendeskRef.$dirty) return errors
+      !this.$v.issuance.zendeskRef.required && errors.push('Zendesk reference is required.')
+      !this.$v.issuance.zendeskRef.minLength && errors.push('Zendesk reference must be 6 characters long')
+      !this.$v.issuance.zendeskRef.maxLength && errors.push('Zendesk number must be 6 characters long')
+      return errors
+    }
   },
   validations: {
     search: {
@@ -197,6 +211,11 @@ export default {
         required,
         minLength: minLength(1),
       }
+    },
+    issuance: {
+      required,
+      sitting: {required},
+      zendeskRef: {required, minLength: minLength(6), maxLength: maxLength(6)}
     }
   },
   methods: {

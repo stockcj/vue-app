@@ -79,9 +79,9 @@ export default {
         }
       ],
       pagination: {
-          sortBy: 'issueDate',
-          descending: true,
-          rowsPerPage: 10, 
+        sortBy: 'issueDate',
+        descending: true,
+        rowsPerPage: 10, 
       },
     }
   },
