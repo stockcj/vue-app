@@ -49,8 +49,8 @@
                     </v-btn>
                     <v-btn
                     class="mt-2"
-                    @click="cancelChanges"
-                    >Cancel
+                    @click="reset"
+                    >Reset
                     </v-btn>
                 </v-flex>
               </v-layout>
@@ -119,7 +119,7 @@ export default {
       const userData = this.currentUser
       this.$store.dispatch('updateProfile', userData)
     },
-    cancelChanges () {
+    reset () {
       this.currentUser = Object.assign({}, JSON.parse(JSON.stringify(this.$store.getters.user)))
     },
     onDismissed () {
