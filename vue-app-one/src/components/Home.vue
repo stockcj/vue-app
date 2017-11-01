@@ -1,8 +1,8 @@
 <template>
-  <v-container>
-    <v-layout row wrap align-center class="mt-5">
+  <v-container grid-list-xl>
+    <v-layout row wrap align-center class="mt-2">
       <v-flex xs12>
-        <h1 class="text-xs-center">Home Page</h1>
+        <h1 class="text-xs-center display-2">Contingency Tracker</h1>
       </v-flex>
     </v-layout>
   </v-container>

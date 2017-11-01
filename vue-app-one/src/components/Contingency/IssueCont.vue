@@ -1,6 +1,6 @@
 <template>
     <v-container fluid grid-list-xl>
-        <v-layout row wrap align-center class="mt-5">
+        <v-layout row wrap align-center class="mt-2">
             <v-flex xs12>
                 <p class="text-xs-center display-2">Issue Contingency</p>
             </v-flex>
@@ -139,6 +139,15 @@ import { validationMixin } from 'vuelidate'
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
+  mixins: [validationMixin],
+  validations: {
+    issuance: {
+      required,
+      testDate: {required},
+      sitting: {required},
+      zendeskRef: {required}
+    }
+  },
   data () {
     return {
       search: {centre: '', exam: '', components:[]},

@@ -1,11 +1,11 @@
 <template>
-  <v-container>
-    <v-layout row wrap align-center class="mt-5">
+  <v-container grid-list-xl>
+    <v-layout row wrap align-center class="mt-2">
       <v-flex xs12>
         <p class="text-xs-center display-2">Create a new user</p>
       </v-flex>
     </v-layout>
-    <v-layout>
+    <v-layout class="mt-5">
       <v-flex xs12 md4 offset-md4>
         <v-card>
           <v-container>

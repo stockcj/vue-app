@@ -1,10 +1,10 @@
 <template>
-  <v-container>
-    <v-layout row wrap align-center class="mt-5">
+  <v-container grid-list-xl>
+    <v-layout row wrap align-center class="mt-2">
       <v-flex xs12>
         <h1 class="text-xs-center display-2">Your Profile</h1>
       </v-flex>
-      <v-flex xs12 md4 offset-md4 class="mt-3">
+      <v-flex xs12 md4 offset-md4 class="mt-5">
         <v-card>
           <v-card-title>
             <h5>Edit your profile</h5>
