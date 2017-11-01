@@ -21,7 +21,7 @@
               hide-actions
               item-key="id"
               class="elevation-1 mt-5">
-              <template slot="items" scope="props">
+              <template slot="items" slot-scope="props">
                 <tr @click="props.expanded = !props.expanded">
                   <td>{{ props.item.centre }}</td>
                   <td class="text-xs-right">{{ props.item.exam.name }}</td>
@@ -30,7 +30,7 @@
                   <td class="text-xs-right">{{ props.item.issueDate }}</td>
                 </tr>
               </template>
-              <template slot="expand" scope="props">
+              <template slot="expand" slot-scope="props">
                 <v-card class="elevation-0">
                   <v-card-text>
                     <p v-for="(value, key) in props.item.components" :key="key">{{key}} : {{value}}</p>
