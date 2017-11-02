@@ -22,7 +22,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar dark class="pink">
+    <v-toolbar dark class="teal">
       <div class="hidden-sm-and-up">
         <v-toolbar-side-icon @click.stop="sideNav = !sideNav" ></v-toolbar-side-icon>
       </div>
