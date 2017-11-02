@@ -1,15 +1,16 @@
 <template>
-  <v-container>
+  <v-container fluid fill-height>
     <v-layout row v-if="error">
-      <v-flex xs12 sm6 offset-sm3>
+      <v-flex xs12 md4 offset-md4>
         <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
       </v-flex>
     </v-layout>
-    <v-layout>
-      <v-flex xs12 md4 offset-md4>
+    <v-layout align-center justify-center>
+      <v-flex xs12 md4>
         <v-card>
           <v-card-text>
             <v-container>
+              <h5>Sign in</h5>
               <form @submit.prevent="onSignin">
                 <v-layout row>
                   <v-flex xs12>
