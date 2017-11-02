@@ -1,12 +1,8 @@
 <template>
   <v-container fluid fill-height>
-    <v-layout row v-if="error">
-      <v-flex xs12 md4 offset-md4>
-        <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
-      </v-flex>
-    </v-layout>
     <v-layout align-center justify-center>
       <v-flex xs12 md4>
+        <app-alert v-if="error" @dismissed="onDismissed" :text="error.message"></app-alert>
         <v-card>
           <v-card-text>
             <v-container>
