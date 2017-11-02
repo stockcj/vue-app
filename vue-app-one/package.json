@@ -1,8 +1,6 @@
 {
-  "name": "vue-app-one",
+  "name": "Contingency Tracker",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "stockcj <claudestockton@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",

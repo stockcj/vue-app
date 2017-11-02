@@ -1,0 +1,43 @@
+{
+  "rules": {
+    "roles": {
+      ".read": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin'",
+      ".write": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin'"
+    },
+    "users": {
+      ".read": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin'",
+      ".write": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin'",
+      "$uid": {
+        ".read": "auth.uid == $uid",
+        ".write": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin'",
+        "profile": {
+          ".write": "auth.uid == $uid",
+          ".indexOn": [
+            "email"
+          ]
+        }
+      }
+    },
+    "exams": {
+      ".read": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin' || root.child('users').child(auth.uid).child('role').child('name').val() == 'technician'",
+      ".write": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin' || root.child('users').child(auth.uid).child('role').child('name').val() == 'technician'"
+    },
+    "components": {
+      ".read": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin' || root.child('users').child(auth.uid).child('role').child('name').val() == 'technician'",
+      ".write": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin' || root.child('users').child(auth.uid).child('role').child('name').val() == 'technician'"
+    },
+    "versions": {
+      ".read": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin' || root.child('users').child(auth.uid).child('role').child('name').val() == 'technician'",
+      ".write": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin' || root.child('users').child(auth.uid).child('role').child('name').val() == 'technician'"
+    },
+    "issuances": {
+      ".read": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin' || root.child('users').child(auth.uid).child('role').child('name').val() == 'technician'",
+      ".write": "root.child('users').child(auth.uid).child('role').child('name').val() == 'admin' || root.child('users').child(auth.uid).child('role').child('name').val() == 'technician'",
+      ".indexOn": [
+        "centre",
+        "exam",
+        "issueDate"
+      ]
+    }
+  }
+}
