@@ -98,7 +98,7 @@ export default {
       this.$store.dispatch('loadRecentContHistory')
     }
   },
-  beforeMount(){
+  created(){
     this.fetchRecentContHistory()
  }
 

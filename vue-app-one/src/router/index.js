@@ -12,6 +12,7 @@ import User from '@/components/Admin/Users/User'
 import CreateUser from '@/components/Admin/Users/CreateUser'
 import Contingency from '@/components/Contingency/Contingency'
 import IssueCont from '@/components/Contingency/IssueCont'
+import Reports from '@/components/Contingency/Reports'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -101,6 +102,13 @@ export default new Router({
       component: IssueCont,
       beforeEnter: AuthGuard,
       meta: { requiresAuth: true , adminAuth:false , technicianAuth:false, crumbs:'/Contingency/Issue'}
+    },
+    {
+      path: '/contingency/reports',
+      name: 'Reports',
+      component: Reports,
+      beforeEnter: AuthGuard,
+      meta: { requiresAuth: true , adminAuth:false , technicianAuth:false, crumbs:'/Contingency/Reports'}
     }
   ],
   // mode: 'history' (removes hashbang url)
