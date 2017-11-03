@@ -5,6 +5,7 @@ export default {
     state: {
       contHistory: [],
       recentContHistory: [],
+      filteredContHistory: [],
       issuance: null,
     },
     mutations: {
@@ -13,6 +14,9 @@ export default {
       },
       setRecentHistory (state, payload) {
         state.recentContHistory = payload
+      },
+      setFilteredContHistory (state, payload) {
+        state.filteredContHistory = payload
       },
       setIssuance (state, payload) {
         state.issuance = payload
@@ -79,13 +83,55 @@ export default {
             commit('setLoading', false)
           })
       },
-    },   
+      loadFilteredContHistory ({commit}, payload) {
+        const filterType = payload.filterType
+        const filterValue = payload.filterValue
+        commit('setLoading', true)
+        firebase.database().ref('issuances').orderByChild(filterType).once('value')
+        .then((data) => {
+          const contHistory = []
+          const obj = data.val()
+          for (let key in obj) {
+            if (filterType === 'exam') {
+              if (obj[key].exam.name === filterValue) {
+                contHistory.push({
+                  id: key,
+                  centre: obj[key].centre,
+                  exam: obj[key].exam,
+                  issueDate: obj[key].issueDate,
+                  testDate: obj[key].testDate
+                })
+              }
+            } else if (filterType === 'centre') {
+              if (obj[key].centre === filterValue) {
+                contHistory.push({
+                  id: key,
+                  centre: obj[key].centre,
+                  exam: obj[key].exam,
+                  issueDate: obj[key].issueDate,
+                  testDate: obj[key].testDate
+                })
+              }
+            }
+          }
+          commit('setLoading', false)
+          commit('setFilteredContHistory', contHistory)
+        })
+        .catch((error) => {
+          console.log(error)
+          commit('setLoading', false)
+        })
+      }
+    },
     getters: {
       loadedContHistory (state) {
         return state.contHistory
       },
       recentContHistory (state) {
-          return state.recentContHistory
+        return state.recentContHistory
+      },
+      filteredContHistory (state) {
+        return state.filteredContHistory
       }
     }
   }
